@@ -1,0 +1,25 @@
+name: Deploy Static HTML via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: FTP Deployment
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout your repository code
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      # 2. Upload files to remote server via FTP
+      - name: Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # local-dir: ./ # Uncomment and change if your HTML files are inside a specific subfolder (e.g., ./dist/ or ./public/)
+          server-dir: /daniel/
